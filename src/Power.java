@@ -7,10 +7,11 @@ public class Power {
         int p = (int)getHighestValue(x);
         x = getDividedMatrix(x, p);
 
-        while (k <= n){
+        System.out.println("hey");
+        /*while (k <= n){
             double[][] y  = multiplyMatrix(a, x);
             //double[][] mu =
-        }
+        }*/
     }
     public double getHighestValue(double[][] matrix){
         int rows = matrix.length;
