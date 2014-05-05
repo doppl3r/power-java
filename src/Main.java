@@ -18,10 +18,37 @@ public class Main {
 
         //Test1
         a = new double[][]{
+            { 0, 0.75, 2.4, 0.3},
+            { 0.4, 0, 0, 0},
+            { 0, 0.7, 0, 0},
+            { 0, 0, 0.8, 0}
+        };
+        power.calculate(a,x,tol,n);
+
+        //Test2
+        a = new double[][]{
                 { 0, 0.75, 2.4, 0.3},
-                { 0.4, 0, 0, 0},
-                { 0, 0.7, 0, 0},
+                { 0.2, 0, 0, 0},
+                { 0, 0.1, 0, 0},
+                { 0, 0, 0.1, 0}
+        };
+        power.calculate(a,x,tol,n);
+
+        //Test3
+        a = new double[][]{
+                { 0, 1.2, 2.8, 0.7},
+                { 0.6, 0, 0, 0},
+                { 0, 0.9, 0, 0},
                 { 0, 0, 0.8, 0}
+        };
+        power.calculate(a,x,tol,n);
+
+        //Test4
+        a = new double[][]{
+                { 0, 1.8, 3, 1},
+                { 0.8, 0, 0, 0},
+                { 0, 0.95, 0, 0},
+                { 0, 0, 0.9, 0}
         };
         power.calculate(a,x,tol,n);
     }

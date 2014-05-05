@@ -3,32 +3,57 @@ public class Power {
 
     }
     public void calculate(double[][] a, double[][] x, double tol, int n){
+        //declare and initialize variables
         int k = 1;
-        int p = (int)getHighestValue(x);
-        x = getDividedMatrix(x, p);
+        double yp;
+        double err;
+        double mu = 0;
+        double[][] y;
+        //mutate vars
+        x = divideMatrix(x,getHighestValue(x));
 
-        System.out.println("hey");
-        /*while (k <= n){
-            double[][] y  = multiplyMatrix(a, x);
-            //double[][] mu =
-        }*/
+
+        //loop through
+        while (k <= n){
+            y  = multiplyMatrix(a, x);
+            mu = getHighestValue(y);
+            yp = getHighestValue(y);
+            if (yp == 0){
+                System.out.println("A");
+                System.out.println("A has a zero eigenvalue with corresponding e_vect");
+                break;
+            }
+            err = norm(subtractMatrix(x, divideMatrix(y, getHighestValue(y))));
+            x = divideMatrix(y, getHighestValue(y));
+            if (err < tol){
+                System.out.println("err: "+err+", tol: "+tol);
+                break;
+            }
+            k++;
+        }
+        System.out.println("Converges to mu="+mu);
     }
-    public double getHighestValue(double[][] matrix){
+    public double getHighestValue(double[][] matrix){ return matrix[getHighestValueIndex(matrix)][0]; }
+    public int getHighestValueIndex(double[][] matrix){
         int rows = matrix.length;
         int cols = matrix[0].length;
+        int index = 0;
         double p = 0;
-
 
         for (int row = 0; row < rows; row++){
             for (int col = 0; col < cols; col++){
-                if (p < matrix[row][col]) p = matrix[row][col];
+                if (p < matrix[row][col]){
+                    p = matrix[row][col];
+                    index = row;
+                }
             }
         }
-        return p;
+        return index;
     }
-    public double[][] getDividedMatrix(double[][] matrix, double denominator){
+    public double[][] divideMatrix(double[][] matrix, double denominator){
         int rows = matrix.length;
         int cols = matrix[0].length;
+
         for (int row = 0; row < rows; row++){
             for (int col = 0; col < cols; col++){
                 matrix[row][col] = matrix[row][col]/denominator;
@@ -36,8 +61,33 @@ public class Power {
         }
         return matrix;
     }
-    public double[][] multiplyMatrix(double[][] A, double[][] B) {
+    public double norm(double[][] matrix){
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        double total = 0;
 
+        for (int row = 0; row < rows; row++){
+            for (int col = 0; col < cols; col++){
+                total += Math.pow(matrix[row][col], 2);
+            }
+        }
+        return Math.sqrt(total);
+    }
+    public double[][] subtractMatrix(double[][] A, double[][] B){
+        int aRows = A.length;
+        int aCols = A[0].length;
+        int bRows = B.length;
+        int bCols = B[0].length;
+
+        double[][] matrix = new double[aRows][bCols];
+        for (int row = 0; row < aRows; row++) {
+            for (int col = 0; col < bCols; col++) {
+                matrix[row][col] = A[row][col]-B[row][col];
+            }
+        }
+        return matrix;
+    }
+    public double[][] multiplyMatrix(double[][] A, double[][] B) {
         int aRows = A.length;
         int aCols = A[0].length;
         int bRows = B.length;
@@ -63,5 +113,16 @@ public class Power {
         }
 
         return matrix;
+    }
+    public void matrixToString(double[][] matrix){
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        for (int row = 0; row < rows; row++){
+            for (int col = 0; col < cols; col++){
+                System.out.print(matrix[row][col]);
+                if (col != cols && row != rows) System.out.print(",");
+            }
+            System.out.println("");
+        }
     }
 }
